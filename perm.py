@@ -8,7 +8,7 @@ Return: The total number of permutations of length n, followed by a list of all 
 
 
 def gen_list(n=3):
-    return "".join(map(str, [x for x in range(1, n+1)]))
+    return "".join(map(str, [x for x in range(1, n + 1)]))
 
 
 def permute(s):
@@ -20,7 +20,7 @@ def permute(s):
     r = []
 
     for p in perm:
-        for i in range(len(p)+1):
+        for i in range(len(p) + 1):
             r.append(p[:i] + c + p[i:])
 
     return r
