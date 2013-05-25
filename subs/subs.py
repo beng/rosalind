@@ -27,8 +27,8 @@ import os
 PATH = lambda x: os.path.abspath(os.path.join(os.path.dirname(__file__), x))
 
 
-def substring(problem="rosalind_subs.txt"):
-    s, t = open(PATH(problem)).read().splitlines()
+def substring(dataset="rosalind_subs.txt"):
+    s, t = open(PATH(dataset)).read().splitlines()
     return " ".join(
         map(str, [ss.start()+1 for ss in finditer("(?=%s)" % t, s)]))
 
