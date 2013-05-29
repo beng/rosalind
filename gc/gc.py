@@ -47,7 +47,7 @@ def gc_content(id, dna):
 
 
 def render_answer(winner):
-    return "%s\n%6f" % (winner['id'].replace(">", ""), winner['percent'])
+    return "%s\n%6f%%" % (winner['id'].replace(">", ""), winner['percent'])
 
 
 if __name__ == "__main__":
