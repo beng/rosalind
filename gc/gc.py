@@ -26,29 +26,19 @@ from collections import OrderedDict
 
 PATH = lambda x: os.path.abspath(os.path.join(os.path.dirname(__file__), x))
 
-"""
-THIS IS NOT FULLY WORKING. PERCENT IS OFF BY .3 PROBABLY BC OF FATSA PARSING
-"""
-
 
 def fatsa(dataset="rosalind_gc.txt"):
-    od = OrderedDict()
-    db = open(PATH(dataset)).read().strip().splitlines()
-
-    for idx in range(len(db)):
-        # This is disgusting. Fix this hack
-        if ">" in db[idx]:
-            ctr = 1
-            tmp = [db[idx+ctr]]
-            try:
-                while ">" not in db[idx+ctr]:
-                    tmp.append(db[idx+ctr])
-                    ctr += 1
-            except IndexError:
-                # EOF
-                pass
-            od[db[idx]] = "".join(tmp)
-    return od
+    from re import finditer
+    dataset = open(PATH(dataset)).read().strip()
+    ids_idx = [letter.start() for letter in finditer("(?=>)", dataset)]
+    pairs = zip(ids_idx, ids_idx[1:])
+    pairs.append((pairs[-1][-1], dataset.rindex(dataset[-1])))
+    items = {}
+    for start, stop in pairs:
+        # skips last letter if we don't add `+ 1`
+        item = dataset[start:stop+1].split("\n")
+        items[item[0]] = "".join(item[1:])
+    return items
 
 
 def gc_content(id, dna):
@@ -57,7 +47,7 @@ def gc_content(id, dna):
 
 
 def render_answer(winner):
-    return "%s\n%s" % (winner['id'].replace(">", ""), winner['percent'])
+    return "%s\n%6f" % (winner['id'].replace(">", ""), winner['percent'])
 
 
 if __name__ == "__main__":
