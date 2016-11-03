@@ -49,7 +49,7 @@ def prot(seq):
     codons = re.findall("...", seq)
     rna_codons = RNA_CODON_TBL.split()
     codon_map = dict(zip(rna_codons[::2], rna_codons[1::2]))
-    return takewhile(lambda v: v.lower() != 'stop', (map(codon_map.get, codons)))
+    return takewhile(lambda v: v.lower() != 'stop', map(codon_map.get, codons))
 
 if __name__ == '__main__':
     with open('rosalind_prot.txt') as fh:
